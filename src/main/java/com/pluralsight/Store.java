@@ -7,7 +7,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
+import java.util.function.ToDoubleBiFunction;
 
 public class Store {
     private static final String filename="products.csv";
@@ -87,6 +89,11 @@ public class Store {
         System.out.printf("%-12s | %-40s | %s %n","ID", "Description", "Price");
         System.out.println("-".repeat(67));
     }
+    public static void displayCartHeader(){
+        System.out.println("-".repeat(80));
+        System.out.printf("%-5s | %-12s | %-40s | %s %n","Qty","ID", "Description", "Price");
+        System.out.println("-".repeat(80));
+    }
 
     /**
      * Displays all products and lets the user add one to the cart.
@@ -139,11 +146,45 @@ public class Store {
             return;
         }
         System.out.println("Displaying Cart");
-        displayHeader();
-        double totalcost=0;
-        for(Product p: cart){
-            System.out.println(p);
-            totalcost+=p.getPrice();
+        displayCartHeader();
+
+        HashMap<String,Integer> qty= new HashMap<>();
+
+        for (Product p : cart) {
+            qty.put(p.getId(), qty.getOrDefault(p.getId(),0)+1);
+        }
+        double totalCost=0;
+        for (Product p : cart) {
+            if (qty.containsKey(p.getId())) {
+                int totalQty = qty.get(p.getId());
+                double subtotal = totalQty * p.getPrice();
+                totalCost += subtotal;
+                System.out.printf("%-5s | %-12s | %-40s | $%,.2f %n",
+                        totalQty, p.getId(), p.getDescription(), subtotal);
+                qty.remove(p.getId());
+            }
+        }
+
+        System.out.println("-".repeat(80));
+        System.out.println("Your total as of now is: "+totalCost);
+        System.out.println("-".repeat(80));
+
+        while(true){
+            System.out.println("What would you like to do next? ");
+            System.out.println("C- Checkout");
+            System.out.println("X- Return Home");
+            System.out.println("Your choice: ");
+            String toCheckOut= scanner.nextLine().trim().toLowerCase();
+            switch (toCheckOut){
+                case "c":
+                    checkOut(cart,totalCost,scanner);
+                    return;
+                case "x":
+                    System.out.println("Returning Home");
+                    return;
+                default:
+                    System.out.println("Invalid entry. Please enter C or X");
+            }
         }
     }
 
@@ -171,7 +212,7 @@ public class Store {
                 return p;
             }
         }
-        System.out.println("No item with ID: " + id + " exists in our catalog");
+        System.out.println("No item with ID: '" + id + "' exists in our catalog");
         return null;
     }
 }
