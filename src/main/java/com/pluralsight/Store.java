@@ -1,25 +1,22 @@
 
 package com.pluralsight;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * Starter code for the Online Store workshop.
- * Students will complete the TODO sections to make the program work.
- */
 public class Store {
-
+    private static final String filename="products.csv";
     public static void main(String[] args) {
-
-        // Create lists for inventory and the shopping cart
         ArrayList<Product> inventory = new ArrayList<>();
         ArrayList<Product> cart = new ArrayList<>();
 
-        // Load inventory from the data file (pipe-delimited: id|name|price)
-        loadInventory("products.csv", inventory);
+        loadInventory(filename, inventory);
 
-        // Main menu loop
         Scanner scanner = new Scanner(System.in);
         int choice = -1;
         while (choice != 3) {
@@ -31,11 +28,11 @@ public class Store {
 
             if (!scanner.hasNextInt()) {
                 System.out.println("Please enter 1, 2, or 3.");
-                scanner.nextLine();                 // discard bad input
+                scanner.nextLine();
                 continue;
             }
             choice = scanner.nextInt();
-            scanner.nextLine();                     // clear newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1 -> displayProducts(inventory, cart, scanner);
@@ -56,8 +53,29 @@ public class Store {
      * A17|Wireless Mouse|19.99
      */
     public static void loadInventory(String fileName, ArrayList<Product> inventory) {
-        // TODO: read each line, split on "|",
-        //       create a Product object, and add it to the inventory list
+        File file= new File(fileName);
+        try{
+            if(!file.exists()){
+                file.createNewFile();
+            }
+        }catch(Exception e){
+            System.out.println("Error creating a new file");
+        }
+        try(BufferedReader reader = new BufferedReader(new FileReader(fileName))){
+            String line="";
+            while((line= reader.readLine())!=null){
+                String [] tokens= line.split("\\|");
+                if(tokens.length!=3){
+                    continue;
+                }
+                String id= tokens[0];
+                String description= tokens[1];
+                double price= Double.parseDouble(tokens[2]);
+                inventory.add(new Product(price,id,description));
+            }
+        }catch(Exception e){
+            System.out.println("Error reading from file");
+        }
     }
 
     /**
