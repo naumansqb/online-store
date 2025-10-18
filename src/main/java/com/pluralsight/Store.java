@@ -81,14 +81,17 @@ public class Store {
         }
     }
 
+
+    public static void displayHeader(){
+        System.out.println("-".repeat(67));
+        System.out.printf("%-12s | %-40s | %s %n","ID", "Description", "Price");
+        System.out.println("-".repeat(67));
+    }
+
     /**
      * Displays all products and lets the user add one to the cart.
      * Typing X returns to the main menu.
      */
-    public static void displayHeader(){
-        System.out.printf("%-12s | %-40s | %s %n","ID", "Description", "Price");
-        System.out.println("-".repeat(67));
-    }
     public static void displayProducts(ArrayList<Product> inventory,
                                        ArrayList<Product> cart,
                                        Scanner scan) {
@@ -96,16 +99,28 @@ public class Store {
         for(Product p: inventory){
             System.out.println(p);
         }
-        System.out.println("Would you like to buy anything?(Y/N)");
-        String wantingToBuy=scan.nextLine();
-        if(wantingToBuy.equalsIgnoreCase("yes")|| wantingToBuy.equalsIgnoreCase("y")){
-            System.out.println("Enter the ID for the product you'd like: ");
-            String productId= scan.nextLine();
-            findProductById(productId,)
-        }else if(wantingToBuy.equalsIgnoreCase("no")||wantingToBuy.equalsIgnoreCase("n")){
-            return;
-        }else{
-            System.out.println("Invalid Input");
+        while(true){
+            System.out.println("\nWould you like to buy anything or return back home?");
+            System.out.println("Y - Yes");
+            System.out.println("X - Return Home");
+            System.out.print("Your choice: ");
+            String wantingToBuy=scan.nextLine().trim();
+            switch (wantingToBuy.toLowerCase()){
+                case "y":
+                    System.out.println("Enter the ID for the product you'd like: ");
+                    String productId= scan.nextLine().trim();
+                    Product p= findProductById(productId,inventory);
+                    if(p!=null){
+                        cart.add(new Product(p.getPrice(),p.getId(),p.getDescription()));
+                        System.out.println(p.getId()+" has been added to your cart");
+                    }
+                    break;
+                case "x":
+                    System.out.println("Return back home");
+                    return;
+                default:
+                    System.out.println("Invalid Entry. Please input 'Y' or 'X'");
+            }
         }
     }
 
