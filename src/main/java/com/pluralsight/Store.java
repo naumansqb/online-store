@@ -68,6 +68,9 @@ public class Store {
                 if(tokens.length!=3){
                     continue;
                 }
+                if(line.isBlank()){
+                    continue;
+                }
                 String id= tokens[0];
                 String description= tokens[1];
                 double price= Double.parseDouble(tokens[2]);
@@ -82,11 +85,40 @@ public class Store {
      * Displays all products and lets the user add one to the cart.
      * Typing X returns to the main menu.
      */
+    public static void displayHeader(){
+        System.out.printf("%-12s | %-40s | %s %n","ID", "Description", "Price");
+        System.out.println("-".repeat(67));
+    }
     public static void displayProducts(ArrayList<Product> inventory,
                                        ArrayList<Product> cart,
-                                       Scanner scanner) {
+                                       Scanner scan) {
         // TODO: show each product (id, name, price),
         //       prompt for an id, find that product, add to cart
+        displayHeader();
+        for(Product p: inventory){
+            System.out.println(p);
+        }
+        System.out.println("Would you like to buy anything?(Y/N)");
+        String wantingToBuy=scan.nextLine();
+        if(wantingToBuy.equalsIgnoreCase("yes")|| wantingToBuy.equalsIgnoreCase("y")){
+            System.out.println("Enter the ID for the product you'd like: ");
+            String productId= scan.nextLine();
+            boolean productFound=false;
+            for(Product p: inventory){
+                if(p.getId().equalsIgnoreCase(productId)){
+                    cart.add(new Product(p.getPrice(),p.getDescription(),p.getId()));
+                    System.out.println(p.getId()+" has been successfully added to your cart");
+                    productFound=true;
+                }
+            }
+            if(!productFound){
+                System.out.println("No product with ID: " +productId+" exists.");
+            }
+        }else if(wantingToBuy.equalsIgnoreCase("no")||wantingToBuy.equalsIgnoreCase("n")){
+            return;
+        }else{
+            System.out.println("Invalid Input");
+        }
     }
 
     /**
