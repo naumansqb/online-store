@@ -71,9 +71,9 @@ public class Store {
                 if(line.isBlank()){
                     continue;
                 }
-                String id= tokens[0];
-                String description= tokens[1];
-                double price= Double.parseDouble(tokens[2]);
+                String id= tokens[0].trim();
+                String description= tokens[1].trim();
+                double price= Double.parseDouble(tokens[2].trim());
                 inventory.add(new Product(price,id,description));
             }
         }catch(Exception e){
@@ -92,8 +92,6 @@ public class Store {
     public static void displayProducts(ArrayList<Product> inventory,
                                        ArrayList<Product> cart,
                                        Scanner scan) {
-        // TODO: show each product (id, name, price),
-        //       prompt for an id, find that product, add to cart
         displayHeader();
         for(Product p: inventory){
             System.out.println(p);
@@ -103,17 +101,7 @@ public class Store {
         if(wantingToBuy.equalsIgnoreCase("yes")|| wantingToBuy.equalsIgnoreCase("y")){
             System.out.println("Enter the ID for the product you'd like: ");
             String productId= scan.nextLine();
-            boolean productFound=false;
-            for(Product p: inventory){
-                if(p.getId().equalsIgnoreCase(productId)){
-                    cart.add(new Product(p.getPrice(),p.getDescription(),p.getId()));
-                    System.out.println(p.getId()+" has been successfully added to your cart");
-                    productFound=true;
-                }
-            }
-            if(!productFound){
-                System.out.println("No product with ID: " +productId+" exists.");
-            }
+            findProductById(productId,)
         }else if(wantingToBuy.equalsIgnoreCase("no")||wantingToBuy.equalsIgnoreCase("n")){
             return;
         }else{
@@ -131,6 +119,17 @@ public class Store {
         //   • compute the total cost
         //   • ask the user whether to check out (C) or return (X)
         //   • if C, call checkOut(cart, totalAmount, scanner)
+        if(cart.isEmpty()){
+            System.out.println("Nothing in your cart as of now.");
+            return;
+        }
+        System.out.println("Displaying Cart");
+        displayHeader();
+        double totalcost=0;
+        for(Product p: cart){
+            System.out.println(p);
+            totalcost+=p.getPrice();
+        }
     }
 
     /**
@@ -152,7 +151,12 @@ public class Store {
      * @return the matching Product, or null if not found
      */
     public static Product findProductById(String id, ArrayList<Product> inventory) {
-        // TODO: loop over the list and compare ids
+        for (Product p : inventory) {
+            if (p.getId().equalsIgnoreCase(id)) {
+                return p;
+            }
+        }
+        System.out.println("No item with ID: " + id + " exists in our catalog");
         return null;
     }
 }
