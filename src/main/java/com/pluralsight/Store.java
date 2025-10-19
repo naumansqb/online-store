@@ -167,7 +167,7 @@ public class Store {
         }
 
         System.out.println("-".repeat(80));
-        System.out.println("Your total as of now is: "+totalCost);
+        System.out.printf("Your total as of now is: $%,.2f%n",totalCost);
         System.out.println("-".repeat(80));
 
         while(true){
@@ -207,9 +207,8 @@ public class Store {
             switch (toBuy) {
                 case "y":
                     double remainingPayment = totalAmount;
-
+                    System.out.printf("Your total is: $%,.2f\n", remainingPayment);
                     while (remainingPayment > 0) {
-                        System.out.printf("Your total is: %,.2f\n", remainingPayment);
                         System.out.print("Please pay the amount: ");
 
                         try {
@@ -237,20 +236,37 @@ public class Store {
                     }
                     displayReceipt(cart,totalAmount);
                     cart.clear();
-                    System.out.println("Returning to home...");
-                    return;
-
                 case "x":
                     System.out.println("Returning home...");
                     return;
-
                 default:
                     System.out.println("Invalid option. Please enter Y or X.");
             }
         }
     }
-    public static void displayReceipt(ArrayList<Product>cart, double price){
-
+    public static void displayReceipt(ArrayList<Product>cart, double totalPaid){
+        HashMap<String, Integer> checkQty= new HashMap<>();
+        for(Product p: cart){
+            checkQty.put(p.getId(),checkQty.getOrDefault(p.getId(),0)+1);
+        }
+        System.out.println("=".repeat(80));
+        System.out.println("            \t\t🧾 OFFICIAL RECEIPT");
+        System.out.println("=".repeat(80));
+        displayCartHeader();
+        for(Product p: cart){
+            if(checkQty.containsKey(p.getId())){
+                int qty= checkQty.get(p.getId());
+                double total= qty * p.getPrice();
+                System.out.printf("%-5s | %-12s | %-40s | $%,.2f %n",
+                        qty, p.getId(), p.getDescription(), total);
+                checkQty.remove(p.getId());
+            }
+        }
+        System.out.println("-".repeat(80));
+        System.out.printf("\t\t\t\t\t\tTotal Paid: $%,.2f%n", totalPaid);
+        System.out.println("=".repeat(80));
+        System.out.println("         \t\tTHANK YOU FOR YOUR PURCHASE!");
+        System.out.println("=".repeat(80));
     }
 
     /**
