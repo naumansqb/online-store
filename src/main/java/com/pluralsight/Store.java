@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.function.ToDoubleBiFunction;
 
@@ -198,7 +199,58 @@ public class Store {
     public static void checkOut(ArrayList<Product> cart,
                                 double totalAmount,
                                 Scanner scanner) {
-        // TODO: implement steps listed above
+        while (true) {
+            System.out.println("Are you sure you'd like to checkout right now?");
+            System.out.println("Y - Yes\nX - Return Home");
+            String toBuy = scanner.nextLine().trim().toLowerCase();
+
+            switch (toBuy) {
+                case "y":
+                    double remainingPayment = totalAmount;
+
+                    while (remainingPayment > 0) {
+                        System.out.printf("Your total is: %,.2f\n", remainingPayment);
+                        System.out.print("Please pay the amount: ");
+
+                        try {
+                            double pay = Double.parseDouble(scanner.nextLine());
+
+                            if (pay <= 0) {
+                                System.out.println("Amount must be greater than 0.");
+                                continue;
+                            }
+
+                            remainingPayment -= pay;
+
+                            if (remainingPayment > 0) {
+                                System.out.printf("Remaining balance: %,.2f\n", remainingPayment);
+                            } else if (remainingPayment < 0) {
+                                double change = -remainingPayment;
+                                System.out.printf("Payment complete. Your change is: %,.2f\n", change);
+                            } else {
+                                System.out.println("Payment complete. Thank you for your purchase!");
+                            }
+
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid input. Please enter a numerical value.");
+                        }
+                    }
+                    displayReceipt(cart,totalAmount);
+                    cart.clear();
+                    System.out.println("Returning to home...");
+                    return;
+
+                case "x":
+                    System.out.println("Returning home...");
+                    return;
+
+                default:
+                    System.out.println("Invalid option. Please enter Y or X.");
+            }
+        }
+    }
+    public static void displayReceipt(ArrayList<Product>cart, double price){
+
     }
 
     /**
