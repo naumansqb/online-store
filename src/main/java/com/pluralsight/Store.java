@@ -5,10 +5,8 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.function.ToDoubleBiFunction;
 
@@ -137,11 +135,6 @@ public class Store {
      * and offers the option to check out.
      */
     public static void displayCart(ArrayList<Product> cart, Scanner scanner) {
-        // TODO:
-        //   • list each product in the cart
-        //   • compute the total cost
-        //   • ask the user whether to check out (C) or return (X)
-        //   • if C, call checkOut(cart, totalAmount, scanner)
         if(cart.isEmpty()){
             System.out.println("Nothing in your cart as of now.");
             return;
@@ -236,6 +229,7 @@ public class Store {
                     }
                     displayReceipt(cart,totalAmount);
                     cart.clear();
+                    return;
                 case "x":
                     System.out.println("Returning home...");
                     return;
@@ -250,7 +244,7 @@ public class Store {
             checkQty.put(p.getId(),checkQty.getOrDefault(p.getId(),0)+1);
         }
         System.out.println("=".repeat(80));
-        System.out.println("            \t\t🧾 OFFICIAL RECEIPT");
+        System.out.printf("%-30s OFFICIAL RECEIPT%n","");
         System.out.println("=".repeat(80));
         displayCartHeader();
         for(Product p: cart){
@@ -263,9 +257,9 @@ public class Store {
             }
         }
         System.out.println("-".repeat(80));
-        System.out.printf("\t\t\t\t\t\tTotal Paid: $%,.2f%n", totalPaid);
+        System.out.printf("%-25s Total Paid: $%,.2f%n","", totalPaid);
         System.out.println("=".repeat(80));
-        System.out.println("         \t\tTHANK YOU FOR YOUR PURCHASE!");
+        System.out.printf("%-25s THANK YOU FOR YOUR PURCHASE!%n","");
         System.out.println("=".repeat(80));
     }
 
