@@ -15,32 +15,17 @@ public class Product {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     @Override
     public String toString() {
-        return "Product{" +
-                "id='" + id + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                '}';
+        return String.format("%-12s | %-40s | $%,.2f", id, description, price);
     }
 }
