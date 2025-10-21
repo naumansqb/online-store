@@ -1,15 +1,19 @@
-# Project Title
+# Online Store
 
 ## Description of the Project
 
-Briefly describe what this Java console application does. Mention its purpose and who the intended users are. Explain the main functionality and what problems it aims to solve.
+This command-line application simulates a complete online shopping experience. 
+Users can browse a product inventory loaded from a CSV file, add items to their shopping cart, view their cart with automatic quantity grouping, and complete purchases with a full checkout process including payment handling and receipt generation.
 
 ## User Stories
 
-List the user stories that guided the development of your application. Format these stories as: "As a [type of user], I want [some goal] so that [some reason]."
-
-- As a user, I want to be able to input my data, so that the application can process it accordingly.
-- As a user, I want to receive immediate feedback, so I can understand what to do next.
+- As a developer, I want to display a formatted header for users so they have the same user interface each time.
+- As a user, I want to view the product catalog so that I may browse what I want to buy.
+- As a developer, I want to load the products from the CSV file on startup so that users can browse available items.
+- As a developer, I want to create a helper method so I can look up products reliably each time.
+- As a user, I want to be able to see all the items in my cart so that I can see my running total and what is in my cart.
+- As a user, I want to checkout my items so I can take the items home.
+- As a user, I want to see a detailed receipt after purchase, so that I have a record of my transaction.
 
 ## Setup
 
@@ -31,38 +35,33 @@ Follow these steps to get your application running within IntelliJ IDEA:
 5. Right-click on the file and select 'Run 'YourMainClassName.main()'' to start the application.
 
 ## Technologies Used
-
-- Java: Mention the version you are using.
-- Any additional libraries or frameworks used in the project.
-
+- Java 17 (Amazon Corretto distribution)
+  - `openjdk 17.0.12 2024-07-16`
 ## Demo
+The main menu presents three options: viewing products, checking the cart, or exiting the application.
 
-Include screenshots or GIFs that show your application in action. Use tools like [Giphy Capture](https://giphy.com/apps/giphycapture) to record a GIF of your application.
+![HomeScreen.gif](HomeScreen.gif)
 
-![Application Screenshot](path/to/your/screenshot.png)
+Products are displayed in a formatted table showing ID, description, and price. Users can add items to their cart by entering the product ID.
+
+![DisplayProducts.gif](DisplayProducts.gif)
+
+The checkout screen shows cart items with grouped quantities, accepts payment, calculates change, and displays a detailed receipt.
+
+![Checkout.gif](Checkout.gif)
 
 ## Future Work
 
-Outline potential future enhancements or functionalities you might consider adding:
+- Remove items from cart: Allow customers to remove products before checkout
+- Search and filter products: Add ability to search by product name or filter by price range
+- Save receipts to file: Implement the bonus feature to save receipts as timestamped text files in a Receipts folder
 
-- Additional feature to be developed.
-- Improvement of current functionalities.
 
 ## Resources
-
-List resources such as tutorials, articles, or documentation that helped you during the project.
-
-- [Java Programming Tutorial](https://www.example.com)
-- [Effective Java](https://www.example.com)
-
-## Team Members
-
-- **Name 1** - Specific contributions or roles.
-- **Name 2** - Specific contributions or roles.
+- [HashMaps](https://www.w3schools.com/java/ref_hashmap_getordefault.asp)
 
 ## Thanks
 
 Express gratitude towards those who provided help, guidance, or resources:
+- Thank you to Raymond for continuous support and guidance.
 
-- Thank you to [Mentor's Name] for continuous support and guidance.
-- A special thanks to all teammates for their dedication and teamwork.
