@@ -1,14 +1,10 @@
 
 package com.pluralsight;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.function.ToDoubleBiFunction;
 
 public class Store {
     private static final String filename="products.csv";
